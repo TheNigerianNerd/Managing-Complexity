@@ -1,12 +1,7 @@
-﻿var classic = BurgerFactory.Create("Classic");
-Print(classic);
+﻿using FactoryPattern.Factories;
+using FactoryPattern.Interfaces;
 
-var cheese = BurgerFactory.Create("Cheese Lover");
-Print(cheese);
+IBurgerFactory factory = new BurgerFactory();
 
-static void Print(Burger b)
-{
-    Console.WriteLine(b);
-    foreach (var i in b.Ingredients) Console.WriteLine($"  - {i}");
-    Console.WriteLine();
-}
+var classic = factory.Create("Classic");
+Console.WriteLine($"Built: {classic.Name} - ${classic.Price:F2}");
