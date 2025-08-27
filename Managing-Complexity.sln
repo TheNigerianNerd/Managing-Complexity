@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Factory-Pattern", "Factory-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerFactory", "Design-Patterns\Creation-Patterns\Factory-Pattern\BurgerFactory.csproj", "{3AECB1C8-80E1-4159-A792-5BA702B38AE3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pragmatic-Programmer", "Pragmatic-Programmer", "{46507E51-4FD0-2076-8506-DF701BAD23E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTurtle", "Pragmatic-Programmer\MiniTurtle\MiniTurtle.csproj", "{1BFFB042-0898-4877-B90D-263541725164}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,18 @@ Global
 		{3AECB1C8-80E1-4159-A792-5BA702B38AE3}.Release|x64.Build.0 = Release|Any CPU
 		{3AECB1C8-80E1-4159-A792-5BA702B38AE3}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AECB1C8-80E1-4159-A792-5BA702B38AE3}.Release|x86.Build.0 = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|x64.Build.0 = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Debug|x86.Build.0 = Debug|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|x64.ActiveCfg = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|x64.Build.0 = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|x86.ActiveCfg = Release|Any CPU
+		{1BFFB042-0898-4877-B90D-263541725164}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +57,6 @@ Global
 		{7291FF01-DA8E-4C08-BF32-EB27E4C01252} = {B9FFB057-F30E-1DC2-0BF7-68ABDCE6A4BB}
 		{A60FBFB2-27C9-4993-2364-08849BB80AD7} = {7291FF01-DA8E-4C08-BF32-EB27E4C01252}
 		{3AECB1C8-80E1-4159-A792-5BA702B38AE3} = {A60FBFB2-27C9-4993-2364-08849BB80AD7}
+		{1BFFB042-0898-4877-B90D-263541725164} = {46507E51-4FD0-2076-8506-DF701BAD23E2}
 	EndGlobalSection
 EndGlobal
