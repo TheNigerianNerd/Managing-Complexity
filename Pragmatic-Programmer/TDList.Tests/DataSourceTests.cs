@@ -1,4 +1,5 @@
 using TDList.Contracts;
+using TDList.Data;
 using TDList.Models;
 using TDList.Tests.Fakes;
 using Xunit;
@@ -8,16 +9,24 @@ namespace TDList.Tests
     public class DataSourceTests
     {
         private readonly IDataSource _dataSource;
+        private readonly IDataSource _JSONdataSource;
 
         public DataSourceTests()
         {
             _dataSource = new FakeDataSource();
+            _JSONdataSource = new DataSource();
         }
+
 
         [Fact]
         public void Exists_WithValidConnection_ReturnsTrue()
         {
             Assert.True(_dataSource.Exists("good-connection"));
+        }
+        [Fact]
+        public void Exists_WithJSonConnection_ReturnsFalse()
+        {
+            Assert.False(_JSONdataSource.Exists("SampleConnection"));
         }
 
         [Fact]
