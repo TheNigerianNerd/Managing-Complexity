@@ -4,30 +4,29 @@ using TDList.Contracts;
 namespace TDList.Classes;
 public class ToDo : IToDo
 {
-    private int? id;
-    private string? title;
-    private string? description;
-    private DateTime? dateLogged;
-    private bool? isComplete;
+    public Guid Id { get; init; }
+    public string? Title { get; init; }
+    public string? Description { get; init; }
+    public DateTime? DateLogged { get; init; }
+    public bool? IsComplete { get; init; }
 
     public ToDo(){}
 
-    public ToDo(int? id, string? title, string? description, DateTime? dateLogged, bool? isComplete)
+    public ToDo(Guid id, string? title, string? description, DateTime? dateLogged, bool? isComplete)
     {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.dateLogged = dateLogged;
-        this.isComplete = isComplete;
+        Id = id;
+        Title = title;
+        Description = description;
+        DateLogged = dateLogged;
+        IsComplete = isComplete;
     }
 
-    public ToDo getToDo(int id)
+    public ToDo? GetToDo(Guid id)
     {
-        if(this.id != id) throw new ArgumentException($"ToDo with id: {id} does not exist.");
-        
-        return this;
+        return Id == id ? this : null;
     }
-    public ToDo setToDo()
+
+    public ToDo SetToDo(Guid id)
     {
         throw new NotImplementedException();
     }

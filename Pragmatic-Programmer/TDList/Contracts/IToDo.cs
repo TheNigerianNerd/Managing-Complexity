@@ -1,9 +1,13 @@
 using TDList.Classes;
 
 namespace TDList.Contracts;
+    public interface IToDo
+    {
+        Guid Id { get; }
+        string? Title { get; }
+        string? Description { get; }
+        DateTime? DateLogged { get; }
+        bool? IsComplete { get; }
+    }
 
-public interface IToDo
-{
-    ToDo getToDo(int identifier);
-    ToDo setToDo();
-}
+
