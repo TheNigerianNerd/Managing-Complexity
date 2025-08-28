@@ -42,33 +42,24 @@ while (true)
 void CreateToDo()
 {
     Console.WriteLine("Create a To-Do");
-    Console.Write("Enter title: ");
-    string? title = Console.ReadLine();
-    Console.Write("Enter description: ");
-    string? description = Console.ReadLine();
-    Console.Write("Enter date logged (MM/dd/yyyy): ");
-    DateTime dateLogged = DateTime.MinValue;
-    if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
-    {
-        dateLogged = date;
-    }
-    
-    Console.Write("Is complete? (y/n): ");
+    string title = "Build a todo list";
+    string description = "Build a todo list";
+    DateTime dateLogged = new DateTime(1991, 5, 19);
     bool isComplete = false;
-    var response = Console.ReadLine()?.ToLower();
-    if (response == "y")
-    {
-        isComplete = true;
-    }
-    else if (Console.ReadLine().ToLower() == "n")
-    {
-        isComplete = false;
-    }
+
     var todo = new ToDoBuilder()
         .WithTitle(title)
         .WithDescription(description)
         .WithDateLogged(dateLogged)
         .WithIsComplete(isComplete)
         .Build();
+
+    Console.WriteLine($"Id: {todo.Id}");
+    Console.WriteLine($"Title: {todo.Title}");
+    Console.WriteLine($"Description: {todo.Description}");
+    Console.WriteLine($"Date Logged: {todo.DateLogged}");
+    Console.WriteLine($"Is Complete: {todo.IsComplete}");
 }
+
+
 
