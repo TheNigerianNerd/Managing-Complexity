@@ -21,7 +21,8 @@ while (true)
     switch ((Choices)choice)
     {
         case Choices.CreateTD:
-            Console.WriteLine("Create a To-Do");
+            CreateToDo();
+
             break;
         case Choices.ReadTD:
             Console.WriteLine("Read a To-Do");
@@ -33,11 +34,41 @@ while (true)
             Console.WriteLine("Delete a To-Do");
             break;
         case Choices.QuitTD:
-            Console.WriteLine("Quit");
+            Console.WriteLine("Goodbye!");
             return;
-        default:
-            Console.WriteLine("Invalid input. Please try again.");
-            break;
     }
+}
+
+void CreateToDo()
+{
+    Console.WriteLine("Create a To-Do");
+    Console.Write("Enter title: ");
+    string? title = Console.ReadLine();
+    Console.Write("Enter description: ");
+    string? description = Console.ReadLine();
+    Console.Write("Enter date logged (MM/dd/yyyy): ");
+    DateTime dateLogged = DateTime.MinValue;
+    if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+    {
+        dateLogged = date;
+    }
+    
+    Console.Write("Is complete? (y/n): ");
+    bool isComplete = false;
+    var response = Console.ReadLine()?.ToLower();
+    if (response == "y")
+    {
+        isComplete = true;
+    }
+    else if (Console.ReadLine().ToLower() == "n")
+    {
+        isComplete = false;
+    }
+    var todo = new ToDoBuilder()
+        .WithTitle(title)
+        .WithDescription(description)
+        .WithDateLogged(dateLogged)
+        .WithIsComplete(isComplete)
+        .Build();
 }
 

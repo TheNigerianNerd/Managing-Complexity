@@ -1,5 +1,3 @@
-using TDList.Contracts;
-
 namespace TDList.Contracts;
 public interface IToDoBuilder
     {
