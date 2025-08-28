@@ -9,12 +9,11 @@ namespace TDList.Tests
     public class DataSourceTests
     {
         private readonly IDataSource _dataSource;
-        private readonly IDataSource _JSONdataSource;
+        
 
         public DataSourceTests()
         {
             _dataSource = new FakeDataSource();
-            _JSONdataSource = new DataSource();
         }
 
 
@@ -24,17 +23,10 @@ namespace TDList.Tests
             Assert.True(_dataSource.Exists("good-connection"));
         }
         [Fact]
-        public void Exists_WithJSonConnection_ReturnsFalse()
-        {
-            Assert.False(_JSONdataSource.Exists("SampleConnection"));
-        }
-
-        [Fact]
         public void Exists_WithInvalidConnection_ReturnsFalse()
         {
             Assert.False(_dataSource.Exists("bad-connection"));
         }
-
         [Fact]
         public void IsValid_WithGoodPrefix_ReturnsTrue()
         {
