@@ -15,6 +15,6 @@ public class DataSourceTests : IDataSource
     }
     public bool Create()
     {
-        return false;
+        return true;
     }
 }

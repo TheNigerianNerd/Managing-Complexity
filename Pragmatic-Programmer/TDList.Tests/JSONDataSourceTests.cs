@@ -15,8 +15,8 @@ public class JSONDataSourceTests
     }
 
     [Fact]
-    public void Create_JSONFIleExists_ReturnFalse()
+    public void Create_JSONFIleExists_ReturnTrue()
     {
-        Assert.False(_JSONdataSource.Create());
+        Assert.True(_JSONdataSource.Create());
     }
 }
