@@ -9,11 +9,8 @@ public class DataSource : IDataSource
     Data source class for a JSON file
     <summary>
     */
-    private const string FileName = "TDList.json";
-    public DataSource()
-    {
-
-    }
+    public static string FileName = "TDList.json";
+    public DataSource(){}
     public bool Create()
     {
         try
