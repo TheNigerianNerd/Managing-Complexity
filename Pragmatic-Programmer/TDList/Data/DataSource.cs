@@ -10,25 +10,9 @@ public class DataSource : IDataSource
     <summary>
     */
     private const string FileName = "TDList.json";
-    public bool Exists(string fileName)
+    public DataSource()
     {
-        if (string.IsNullOrWhiteSpace(fileName))return false;
-        try
-        {
-            return File.Exists(fileName);
-        }
-        catch
-        {
-            // Handles cases like invalid path format
-            return false;
-        }
+
     }
-    public bool IsValid(string fileName)
-    {
-        return Exists(fileName);
-    }
-    public IEnumerable<ToDo> Get(string fileName)
-    {
-        return new List<ToDo>();
-    }
+    public bool Create() => false;
 }

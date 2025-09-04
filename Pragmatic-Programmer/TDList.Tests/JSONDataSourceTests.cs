@@ -1,7 +1,6 @@
 using TDList.Contracts;
 using TDList.Data;
 using TDList.Models;
-using TDList.Tests.Fakes;
 using Xunit;
 
 namespace TDList.Tests;
@@ -16,8 +15,8 @@ public class JSONDataSourceTests
     }
 
     [Fact]
-    public void Exists_WithValidConnection_ReturnsTrue()
+    public void Create_JSONFIleExists_ReturnFalse()
     {
-        Assert.False(_JSONdataSource.Exists("TDList.json"));
+        Assert.False(_JSONdataSource.Create());
     }
 }
