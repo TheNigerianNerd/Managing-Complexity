@@ -1,6 +1,7 @@
 using System.Text.Json;
 using TDList.Contracts;
 using TDList.Classes;
+
 namespace TDList.Data;
 
 public class DataSource : IDataSource
@@ -10,7 +11,7 @@ public class DataSource : IDataSource
     <summary>
     */
     public static string FileName = "TDList.json";
-    public DataSource(){}
+    public DataSource() { }
     public bool Create()
     {
         try
@@ -42,4 +43,18 @@ public class DataSource : IDataSource
             return false;
         }
     }
+    public bool Read()
+    {
+        if (!File.Exists(FileName)) return false;
+
+        if (string.IsNullOrEmpty(File.ReadAllText(FileName))) return false;
+
+        var json = File.ReadAllText(FileName);    
+        var data = JsonSerializer.Deserialize<ToDo>(json);
+
+        if (data == null) return false;
+
+        return true;
+    }
+
 }
