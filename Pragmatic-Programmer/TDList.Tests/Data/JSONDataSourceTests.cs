@@ -11,7 +11,7 @@ namespace TDList.Tests;
 public class JSONDataSourceTests
 {
     private readonly IDataSource _JSONdataSource;
-    private readonly string _expectedFileName;
+    private string _expectedFileName;
     public JSONDataSourceTests()
     {
         _JSONdataSource = new DataSource();
@@ -77,9 +77,6 @@ public class JSONDataSourceTests
     [Fact]
     public void Read_FileExists()
     {
-        //Arrange
-        string fileName = _expectedFileName;
-
         //Act
         var result = _JSONdataSource.Read();
 
@@ -89,9 +86,6 @@ public class JSONDataSourceTests
     [Fact]
     public void Read_FileHasText()
     {
-        //Arrange
-        string fileName = _expectedFileName;
-
         //Act
         var file = File.ReadAllText(_expectedFileName);
 
@@ -103,12 +97,19 @@ public class JSONDataSourceTests
     {
         //Arrange
         var file = File.OpenText(_expectedFileName);
-
         //Act
         var result = JsonSerializer.Deserialize<ToDo>(file.ReadToEnd());
 
         //Assert
-        Assert.NotNull(result);    
+        Assert.NotNull(result);
     }
     #endregion
-}
+    #region 'Update' Tests - Tests to assert the datasource updates the prescribed JSON file
+    // [Fact]
+    // public void Update_FileExists()
+    // {
+    //     var result = _JSONdataSource.Update();
+    //     Assert.True(result);
+    // }
+    #endregion
+    }

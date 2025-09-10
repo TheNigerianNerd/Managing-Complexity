@@ -8,7 +8,7 @@ public class ToDo : IToDo
     public string? Title { get; init; }
     public string? Description { get; init; }
     public DateTime? DateLogged { get; init; }
-    public bool? IsComplete { get; init; }
+    public bool? IsComplete { get; set; }
 
     public ToDo(){}
 

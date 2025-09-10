@@ -1,6 +1,7 @@
 using System.Text.Json;
 using TDList.Contracts;
 using TDList.Classes;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TDList.Data;
 
@@ -17,7 +18,15 @@ public class DataSource : IDataSource
         try
         {
             // Create a ToDo object
-            var todo = new ToDo();
+            var todoBuilder = new ToDoBuilder();
+
+            todoBuilder.WithId(Guid.NewGuid());
+            todoBuilder.WithTitle("Build a todo list");
+            todoBuilder.WithDescription("Build a todo list");
+            todoBuilder.WithDateLogged(new DateTime(1991, 5, 19));
+            todoBuilder.WithIsComplete(false);
+
+            var todo = todoBuilder.Build();
 
             // Serialize the ToDo object to JSON
             var json = JsonSerializer.Serialize(todo, new JsonSerializerOptions { WriteIndented = true });
@@ -56,5 +65,20 @@ public class DataSource : IDataSource
 
         return true;
     }
+    public bool Update(Guid id, bool isComplete)
+    {
+        if (!File.Exists(FileName)) return false;
 
+        var json = File.ReadAllText(FileName);
+        var data = JsonSerializer.Deserialize<ToDo>(json);
+
+        if (data == null || data.Id != id) return false;
+
+        data.IsComplete = isComplete;
+
+        json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(FileName, json);
+
+        return true;
+    }    
 }
