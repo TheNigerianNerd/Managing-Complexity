@@ -63,12 +63,21 @@ public class DataSource : IDataSource
             File.WriteAllText(FileName, json);
         }
     }
-    public List<ToDo>? Read()
+    public List<ToDo> Read()
     {
-        if (!File.Exists(FileName) || new FileInfo(FileName).Length == 0) return null;
+        List<ToDo> todos = new List<ToDo>();
+
+        if (!File.Exists(FileName) || new FileInfo(FileName).Length == 0) return todos;
 
         var json = File.ReadAllText(FileName);
-        return JsonSerializer.Deserialize<List<ToDo>>(json);
+        var data = JsonSerializer.Deserialize<List<ToDo>>(json);
+
+        if (data == null)
+        {
+            return todos;
+        }
+
+        return data;
     }
     public bool Update(Guid id, bool isComplete)
     {
