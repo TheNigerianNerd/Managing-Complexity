@@ -7,4 +7,5 @@ public interface IDataSource
     void InsertData();
     List<ToDo> Read();
     bool Update(Guid id, bool isComplete);
+    bool Add(IToDoBuilder builder);
 }

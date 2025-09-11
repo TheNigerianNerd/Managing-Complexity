@@ -105,4 +105,27 @@ public class DataSource : IDataSource
 
         return true;
     }
+    
+    /// <summary>
+    /// Add a new to-do item to the data store.
+    /// </summary>
+    /// <param name="builder">The builder to use to create the new to-do item.</param>
+    /// <returns>True if the add was successful, false otherwise.</returns>
+    public bool Add(IToDoBuilder builder)
+    {
+        if (!File.Exists(FileName)) return false;
+
+        var json = File.ReadAllText(FileName);
+        var data = JsonSerializer.Deserialize<List<ToDo>>(json);
+
+        if (data == null) data = new List<ToDo>();
+
+        var todo = (ToDo)builder.Build();
+        data.Add(todo);
+
+        json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(FileName, json);
+
+        return true;
+    }
 }

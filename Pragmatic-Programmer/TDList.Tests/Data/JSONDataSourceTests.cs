@@ -62,7 +62,33 @@ public class JSONDataSourceTests
         //Assert
         var todos = JsonSerializer.Deserialize<List<ToDo>>(File.ReadAllText(_expectedFileName));
         var todo = todos?.First(t => t.Id == id);
-        if(todo != null) Assert.True(todo.IsComplete);
+        if (todo != null) Assert.True(todo.IsComplete);
     }
     #endregion
+    [Fact]
+    public void Add_NewToDoItem_ReturnsTrue()
+    {
+        string mockId = Guid.NewGuid().ToString();
+        // Arrange
+        var builder = new ToDoBuilder()
+            .WithId(new Guid(mockId))
+            .WithTitle("Test Todo Item")
+            .WithDescription("This is a test todo item")
+            .WithDateLogged(DateTime.Now)
+            .WithIsComplete(false);
+
+        // Act
+        var result = _JSONdataSource.Add(builder);
+
+        // Assert
+        Assert.True(result);
+
+        // Verify that the todo item was added to the file
+        var todos = JsonSerializer.Deserialize<List<ToDo>>(File.ReadAllText(DataSource.FileName));
+        Assert.NotNull(todos);
+        var todo = todos.First(t => t.Id == Guid.Parse(mockId));
+        Assert.NotNull(todo);
+        Assert.Equal("Test Todo Item", todo.Title);
+        Assert.Equal("This is a test todo item", todo.Description);
+    }
 }
