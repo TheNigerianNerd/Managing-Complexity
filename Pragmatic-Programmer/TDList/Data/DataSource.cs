@@ -44,7 +44,7 @@ public class DataSource : IDataSource
         if (File.Exists(FileName) && new FileInfo(FileName).Length == 0)
         {
             var todo1 = (ToDo)new ToDoBuilder()
-                        .WithId(Guid.NewGuid())
+                        .WithId(new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c"))
                         .WithTitle("AGILE Methodology")
                         .WithDescription("Short iterations, short sprints")
                         .WithDateLogged(DateTime.Now)
@@ -79,16 +79,26 @@ public class DataSource : IDataSource
 
         return data;
     }
+
+    /// <summary>
+    /// Update a to-do item in the data store.
+    /// </summary>
+    /// <param name="id">The id of the to-do item to update.</param>
+    /// <param name="isComplete">The new value to set the IsComplete property to.</param>
+    /// <returns>True if the update was successful, false otherwise.</returns>
     public bool Update(Guid id, bool isComplete)
     {
         if (!File.Exists(FileName)) return false;
 
         var json = File.ReadAllText(FileName);
-        var data = JsonSerializer.Deserialize<ToDo>(json);
+        var data = JsonSerializer.Deserialize<List<ToDo>>(json);
 
-        if (data == null || data.Id != id) return false;
+        if (data == null || data.Count == 0) return false;
 
-        data.IsComplete = isComplete;
+        var todo = data.FirstOrDefault(t => t.Id == id);
+        if (todo == null) return false;
+
+        todo.IsComplete = isComplete;
 
         json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(FileName, json);

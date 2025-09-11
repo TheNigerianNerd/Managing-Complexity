@@ -50,11 +50,19 @@ public class JSONDataSourceTests
     }
     #endregion
     #region 'Update' Tests - Tests to assert the datasource updates the prescribed JSON file
-    // [Fact]
-    // public void Update_FileExists()
-    // {
-    //     var result = _JSONdataSource.Update();
-    //     Assert.True(result);
-    // }
-    #endregion
+    [Fact]
+    public void Update_UpdatesToDoItem_ReturnsTrue()
+    {
+        //Arrange
+        var id = new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c");
+        //Act
+        _JSONdataSource.InsertData();
+        var result = _JSONdataSource.Update(id, true);
+
+        //Assert
+        var todos = JsonSerializer.Deserialize<List<ToDo>>(File.ReadAllText(_expectedFileName));
+        var todo = todos?.First(t => t.Id == id);
+        if(todo != null) Assert.True(todo.IsComplete);
     }
+    #endregion
+}
