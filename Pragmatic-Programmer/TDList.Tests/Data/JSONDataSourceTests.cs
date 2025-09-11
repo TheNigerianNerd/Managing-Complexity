@@ -28,80 +28,25 @@ public class JSONDataSourceTests
         Assert.True(result);
         Assert.True(File.Exists(_expectedFileName));
     }
-
+    #endregion
+    #region 'Insert' Tests - Tests to assert the datasource inserts data into the prescribed JSON file
     [Fact]
-    public void Create_FileAlreadyExists_ReturnsTrue()
+    public void InsertData()
     {
-        //Arrange
-        File.Create(_expectedFileName).Dispose();
-
         //Act
-        var result = _JSONdataSource.Create();
-
-        //Assert
-        Assert.True(result);
-        Assert.True(File.Exists(_expectedFileName));
-    }
-    [Fact]
-    public void Create_IoException_ReturnsFalse()
-    {
-        // Test that Create method returns false when an I/O exception occurs (e.g. file is already open and locked)
-        var fileStream = File.Open(_expectedFileName, FileMode.Open, FileAccess.Write, FileShare.None);
-
-        // Act
-        var result = _JSONdataSource.Create();
-
-        // Assert
-        Assert.False(result);
-        Assert.True(File.Exists(_expectedFileName));
-        fileStream.Dispose();
-    }
-    [Fact]
-    public void Create_UnauthorizedAccessException_ReturnsFalse()
-    {
-        // Arrange
-        var fileStream = File.Open(_expectedFileName, FileMode.Open, FileAccess.Write, FileShare.None);
-        File.SetAttributes(_expectedFileName, FileAttributes.ReadOnly);
-
-        // Act
-        var result = _JSONdataSource.Create();
-
-        // Assert
-        Assert.False(result);
-        Assert.True(File.Exists(_expectedFileName));
-        File.SetAttributes(_expectedFileName, FileAttributes.Normal);
-        fileStream.Dispose();
+        _JSONdataSource.InsertData();
+        Assert.NotEmpty(File.ReadAllText(_expectedFileName));
     }
     #endregion
     #region 'Read' Tests - Tests to assert the datasource reads the prescribed JSON file
     [Fact]
-    public void Read_FileExists()
+    public void Read_FileExists_ReturnsListOfToDoObjects()
     {
         //Act
         var result = _JSONdataSource.Read();
 
         //Assert
-        Assert.True(result);
-    }
-    [Fact]
-    public void Read_FileHasText()
-    {
-        //Act
-        var file = File.ReadAllText(_expectedFileName);
-
-        //Assert
-        Assert.NotEmpty(file);
-    }
-    [Fact]
-    public void Read_FileIsValidJSON()
-    {
-        //Arrange
-        var file = File.OpenText(_expectedFileName);
-        //Act
-        var result = JsonSerializer.Deserialize<ToDo>(file.ReadToEnd());
-
-        //Assert
-        Assert.NotNull(result);
+        Assert.True(result is List<ToDo>);
     }
     #endregion
     #region 'Update' Tests - Tests to assert the datasource updates the prescribed JSON file

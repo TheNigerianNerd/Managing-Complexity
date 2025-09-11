@@ -17,22 +17,9 @@ public class DataSource : IDataSource
     {
         try
         {
-            // Create a ToDo object
-            var todoBuilder = new ToDoBuilder();
+            if (!File.Exists(FileName)) return false;
 
-            todoBuilder.WithId(Guid.NewGuid());
-            todoBuilder.WithTitle("Build a todo list");
-            todoBuilder.WithDescription("Build a todo list");
-            todoBuilder.WithDateLogged(new DateTime(1991, 5, 19));
-            todoBuilder.WithIsComplete(false);
-
-            var todo = todoBuilder.Build();
-
-            // Serialize the ToDo object to JSON
-            var json = JsonSerializer.Serialize(todo, new JsonSerializerOptions { WriteIndented = true });
-
-            // Write the JSON to a file
-            File.WriteAllText(FileName, json);
+            File.Create(FileName).Dispose();
 
             return true;
         }
@@ -52,18 +39,36 @@ public class DataSource : IDataSource
             return false;
         }
     }
-    public bool Read()
+    public void InsertData()
     {
-        if (!File.Exists(FileName)) return false;
+        if (File.Exists(FileName) && new FileInfo(FileName).Length == 0)
+        {
+            var todo1 = (ToDo)new ToDoBuilder()
+                        .WithId(Guid.NewGuid())
+                        .WithTitle("AGILE Methodology")
+                        .WithDescription("Short iterations, short sprints")
+                        .WithDateLogged(DateTime.Now)
+                        .WithIsComplete(false)
+                        .Build();
+            var todo2 = (ToDo)new ToDoBuilder()
+                        .WithId(Guid.NewGuid())
+                        .WithTitle("Code Fluency")
+                        .WithDescription("Rapid prototyping")
+                        .WithDateLogged(DateTime.Now)
+                        .WithIsComplete(false)
+                        .Build();
 
-        if (string.IsNullOrEmpty(File.ReadAllText(FileName))) return false;
+            var todos = new ToDo[] { todo1, todo2 };
+            var json = JsonSerializer.Serialize(todos, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FileName, json);
+        }
+    }
+    public List<ToDo>? Read()
+    {
+        if (!File.Exists(FileName) || new FileInfo(FileName).Length == 0) return null;
 
-        var json = File.ReadAllText(FileName);    
-        var data = JsonSerializer.Deserialize<ToDo>(json);
-
-        if (data == null) return false;
-
-        return true;
+        var json = File.ReadAllText(FileName);
+        return JsonSerializer.Deserialize<List<ToDo>>(json);
     }
     public bool Update(Guid id, bool isComplete)
     {
@@ -80,5 +85,5 @@ public class DataSource : IDataSource
         File.WriteAllText(FileName, json);
 
         return true;
-    }    
+    }
 }
