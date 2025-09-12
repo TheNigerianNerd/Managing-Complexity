@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Enumeration;
 using System.Text.Json;
 using TDList.Classes;
@@ -12,6 +13,7 @@ public class JSONDataSourceTests
 {
     private readonly IDataSource _JSONdataSource;
     private string _expectedFileName;
+
     public JSONDataSourceTests()
     {
         _JSONdataSource = new DataSource();
@@ -44,7 +46,7 @@ public class JSONDataSourceTests
     {
         //Act
         var result = _JSONdataSource.Read();
-
+        Console.WriteLine($"First item in the list has title: {result?.FirstOrDefault()?.Title}");
         //Assert
         Assert.True(result is List<ToDo>);
     }

@@ -44,12 +44,12 @@ public class DataSource : IDataSource
         if (File.Exists(FileName) && new FileInfo(FileName).Length == 0)
         {
             var todo1 = (ToDo)new ToDoBuilder()
-                        .WithId(new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c"))
-                        .WithTitle("AGILE Methodology")
-                        .WithDescription("Short iterations, short sprints")
-                        .WithDateLogged(DateTime.Now)
-                        .WithIsComplete(false)
-                        .Build();
+                    .WithId(new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c"))
+                    .WithTitle("AGILE Methodology")
+                    .WithDescription("Short iterations, short sprints")
+                    .WithDateLogged(DateTime.Now)
+                    .WithIsComplete(false)
+                    .Build();
             var todo2 = (ToDo)new ToDoBuilder()
                         .WithId(Guid.NewGuid())
                         .WithTitle("Code Fluency")
@@ -61,13 +61,13 @@ public class DataSource : IDataSource
             var todos = new ToDo[] { todo1, todo2 };
             var json = JsonSerializer.Serialize(todos, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(FileName, json);
-        }
+        }       
     }
     public List<ToDo> Read()
     {
         List<ToDo> todos = new List<ToDo>();
 
-        if (!File.Exists(FileName) || new FileInfo(FileName).Length == 0) return todos;
+        //if (!File.Exists(FileName) || new FileInfo(FileName).Length == 0) return todos;
 
         var json = File.ReadAllText(FileName);
         var data = JsonSerializer.Deserialize<List<ToDo>>(json);
@@ -105,7 +105,7 @@ public class DataSource : IDataSource
 
         return true;
     }
-    
+
     /// <summary>
     /// Add a new to-do item to the data store.
     /// </summary>

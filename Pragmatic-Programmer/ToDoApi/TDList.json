@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c",
+    "Title": "AGILE Methodology",
+    "Description": "Short iterations, short sprints",
+    "DateLogged": "2025-09-12T10:20:45.560561-04:00",
+    "IsComplete": true
+  },
+  {
+    "Id": "c40e864b-cf03-4086-8711-1e305c80bb39",
+    "Title": "Code Fluency",
+    "Description": "Rapid prototyping",
+    "DateLogged": "2025-09-12T10:20:45.5607335-04:00",
+    "IsComplete": false
+  },
+  {
+    "Id": "22e0650d-c3ea-4938-b4e6-fd628db0a95b",
+    "Title": "Test Todo Item",
+    "Description": "This is a test todo item",
+    "DateLogged": "2025-09-12T10:20:45.5851862-04:00",
+    "IsComplete": false
+  }
+]
