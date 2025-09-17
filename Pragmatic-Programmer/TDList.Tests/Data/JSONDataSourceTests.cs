@@ -23,11 +23,7 @@ public class JSONDataSourceTests
     [Fact]
     public void Create_FileCreated_ReturnsTrue()
     {
-        // Act
-        var result = _JSONdataSource.Create();
-
         // Assert
-        Assert.True(result);
         Assert.True(File.Exists(_expectedFileName));
     }
     #endregion

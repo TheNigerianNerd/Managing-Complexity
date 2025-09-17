@@ -3,7 +3,7 @@ namespace TDList.Contracts;
 
 public interface IDataSource
 {
-    bool Create();
+    void Create();
     void InsertData();
     List<ToDo> Read();
     bool Update(Guid id, bool isComplete);

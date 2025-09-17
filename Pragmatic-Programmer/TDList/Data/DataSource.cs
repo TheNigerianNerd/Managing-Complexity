@@ -14,30 +14,23 @@ public class DataSource : IDataSource
     private static readonly ConnectionProvider _connectionProvider = ConnectionProvider.Instance;
     public static string FileName = _connectionProvider.GetConnectionString();
     public DataSource() { }
-    public bool Create()
+    public void Create()
     {
         try
         {
-            if (!File.Exists(FileName)) return false;
-
-            File.Create(FileName).Dispose();
-
-            return true;
+            if (!File.Exists(FileName))File.Create(FileName).Dispose();
         }
         catch (IOException ex)
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
-            return false;
         }
         catch (UnauthorizedAccessException ex)
         {
             Console.WriteLine($"Access to the file was denied: {ex.Message}");
-            return false;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"An unexpected error occurred: {ex.Message}");
-            return false;
         }
     }
     public void InsertData()
