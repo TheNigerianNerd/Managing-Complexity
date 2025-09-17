@@ -11,7 +11,8 @@ public class DataSource : IDataSource
     Data source class for a JSON file
     <summary>
     */
-    public static string FileName = "TDList.json";
+    private static readonly ConnectionProvider _connectionProvider = ConnectionProvider.Instance;
+    public static string FileName = _connectionProvider.GetConnectionString();
     public DataSource() { }
     public bool Create()
     {

@@ -22,13 +22,4 @@ public sealed class ConnectionProvider : IConnectionProvider
     {
         return FileName;
     }
-
-    // Allow updating the filename once (if you want mutability)
-    public void SetFileName(string fileName)
-    {
-        if (!string.IsNullOrWhiteSpace(fileName))
-        {
-            FileName = fileName;
-        }
-    }
 }
