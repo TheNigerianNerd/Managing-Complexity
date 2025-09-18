@@ -35,7 +35,7 @@ public class DataSource : IDataSource
     }
     public void InsertData()
     {
-        if (File.Exists(FileName) && new FileInfo(FileName).Length == 0)
+        if (File.Exists(FileName) && new FileInfo(FileName).Length == 0)//run if the file exists and is empty
         {
             var todo1 = (ToDo)new ToDoBuilder()
                     .WithId(new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c"))

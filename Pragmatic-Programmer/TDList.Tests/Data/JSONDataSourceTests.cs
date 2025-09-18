@@ -21,8 +21,10 @@ public class JSONDataSourceTests
     }
     #region 'Create' Tests - Tests to assert the datasource creates a JSON file
     [Fact]
-    public void Create_FileCreated_ReturnsTrue()
+    public void Create_FileExists_ReturnsTrue()
     {
+        // Act
+        _JSONdataSource.Create();
         // Assert
         Assert.True(File.Exists(_expectedFileName));
     }
