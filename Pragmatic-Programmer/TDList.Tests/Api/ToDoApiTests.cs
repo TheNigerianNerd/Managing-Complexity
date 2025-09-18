@@ -1,19 +1,28 @@
-using TDList.Data;
-using TDList.Contracts;
+using Moq;
 using TDList.Classes;
+using TDList.Contracts;
+using TDList.ToDoApi;
 
-namespace TDList.Tests.Api;
-
-public class ToDoApiTests
+namespace TDList.Tests;
+public class ToDoControllerTests
 {
-    private readonly IDataSource _dataSource;
-    private string _expectedFileName;
-    private List<ToDo> _expectedTodos;
-
-    public ToDoApiTests()
+    [Fact]
+    public async Task ReadAsync_ReturnsListOfToDoObjects_WhenCalledWithValidParameters()
     {
-        _dataSource = new DataSource();
-        _expectedFileName = DataSource.FileName;
-        _expectedTodos = _dataSource.Read();
+        // Arrange
+        var dataSourceMock = new Mock<IDataSource>();
+        dataSourceMock
+        .Setup(ds => ds.ReadAsync())
+        .Returns(Task.FromResult(new List<ToDo>()));
+
+
+        var toDoController = new ToDoController(new TDList.Data.DataSource());
+
+        // Act
+        var result = await toDoController.Get();
+
+        // Assert
+        Assert.IsType<Microsoft.AspNetCore.Mvc.OkObjectResult>(result);
     }
+
 }

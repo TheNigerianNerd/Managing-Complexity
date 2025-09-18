@@ -5,26 +5,27 @@ using TDList.Classes;
 using TDList.Contracts;
 using TDList.Data;
 using TDList.Models;
+using TDList.ToDoApi;
 using Xunit;
 
 namespace TDList.Tests;
 
 public class JSONDataSourceTests
 {
-    private readonly IDataSource _JSONdataSource;
+    private readonly DataSource _JSONDataSource;
     private string _expectedFileName;
 
     public JSONDataSourceTests()
     {
-        _JSONdataSource = new DataSource();
-        _expectedFileName = DataSource.FileName;
+        _JSONDataSource = new DataSource();
+        _expectedFileName = Path.GetFullPath(DataSource.FileName);
     }
     #region 'Create' Tests - Tests to assert the datasource creates a JSON file
     [Fact]
-    public void Create_FileExists_ReturnsTrue()
+    public async Task Create_FileExists_ReturnsTrue()
     {
         // Act
-        _JSONdataSource.Create();
+        await _JSONDataSource.CreateFileIfNeededAsync();
         // Assert
         Assert.True(File.Exists(_expectedFileName));
     }
@@ -34,19 +35,20 @@ public class JSONDataSourceTests
     public void InsertData()
     {
         //Act
-        _JSONdataSource.InsertData();
+        _JSONDataSource.InsertData();
         Assert.NotEmpty(File.ReadAllText(_expectedFileName));
     }
     #endregion
     #region 'Read' Tests - Tests to assert the datasource reads the prescribed JSON file
     [Fact]
-    public void Read_FileExists_ReturnsListOfToDoObjects()
+    public async Task Read_FileExists_ReturnsListOfToDoObjects()
     {
         //Act
-        var result = _JSONdataSource.Read();
-        Console.WriteLine($"First item in the list has title: {result?.FirstOrDefault()?.Title}");
-        //Assert
-        Assert.True(result is List<ToDo>);
+        var task = _JSONDataSource.ReadAsync() as Task<List<ToDo>>;
+        var result = await task.ConfigureAwait(true);
+        Assert.NotEmpty(result);
+        var actualData = Assert.IsType<List<ToDo>>(result);
+        Assert.NotEmpty(actualData);
     }
     #endregion
     #region 'Update' Tests - Tests to assert the datasource updates the prescribed JSON file
@@ -56,8 +58,8 @@ public class JSONDataSourceTests
         //Arrange
         var id = new Guid("d5e375a6-ff6b-4b76-8a5d-5c0a6d3c0e5c");
         //Act
-        _JSONdataSource.InsertData();
-        var result = _JSONdataSource.Update(id, true);
+        _JSONDataSource.InsertData();
+        var result = _JSONDataSource.Update(id, true);
 
         //Assert
         var todos = JsonSerializer.Deserialize<List<ToDo>>(File.ReadAllText(_expectedFileName));
@@ -78,7 +80,7 @@ public class JSONDataSourceTests
             .WithIsComplete(false);
 
         // Act
-        var result = _JSONdataSource.Add(builder);
+        var result = _JSONDataSource.Add(builder);
 
         // Assert
         Assert.True(result);
@@ -92,3 +94,4 @@ public class JSONDataSourceTests
         Assert.Equal("This is a test todo item", todo.Description);
     }
 }
+
