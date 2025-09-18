@@ -18,7 +18,7 @@ namespace TDList.Tests
         [HttpGet]
         public IActionResult Get()
         {
-            var toDos = _dataSource.Read();
+            var toDos = _dataSource.ReadAsync();
             return Ok(toDos);
         }
     }

@@ -1,11 +1,13 @@
 using TDList.Classes;
+using System.Threading.Tasks;
+
 namespace TDList.Contracts;
 
 public interface IDataSource
 {
-    void Create();
-    void InsertData();
-    List<ToDo> Read();
-    bool Update(Guid id, bool isComplete);
-    bool Add(IToDoBuilder builder);
+    Task CreateAsync();
+    Task InsertDataAsync();
+    Task<List<ToDo>> ReadAsync();
+    Task<bool> UpdateAsync(Guid id, bool isComplete);
+    Task<bool> AddAsync(IToDoBuilder builder);
 }
