@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 namespace TDList.Contracts;
 
 public interface IDataSource
-{
+{ 
     Task CreateAsync();
-    Task InsertDataAsync();
+    Task InsertDataAsync(List<ToDo> toDos);
     Task<List<ToDo>> ReadAsync();
-    Task<bool> UpdateAsync(Guid id, bool isComplete);
-    Task<bool> AddAsync(IToDoBuilder builder);
+    //Task<bool> UpdateAsync(Guid id, bool isComplete);
+    // Task<bool> AddAsync(IToDoBuilder builder);
 }

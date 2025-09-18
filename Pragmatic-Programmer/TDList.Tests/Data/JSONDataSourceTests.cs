@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO.Enumeration;
 using System.Text.Json;
+using Microsoft.VisualBasic;
 using TDList.Classes;
 using TDList.Contracts;
 using TDList.Data;
@@ -26,5 +27,65 @@ public class JSONDataSourceTests
         await _JSONDataSource.CreateAsync();
         Assert.True(File.Exists(_expectedFileName));
     }
+
+    [Fact]
+    public async Task ReadAsync_ReturnsDeserializedList_WhenFileExists()
+    {
+        var toDos = new List<IToDo>
+        {
+            new ToDoBuilder()
+                .WithId(Guid.NewGuid())
+                .WithTitle("Test")
+                .WithDescription("Test")
+                .WithDateLogged(DateTime.Now)
+                .WithIsComplete(false)
+                .Build(),
+            new ToDoBuilder()
+                .WithId(Guid.NewGuid())
+                .WithTitle("Test2")
+                .WithDescription("Test2")
+                .WithDateLogged(DateTime.Now)
+                .WithIsComplete(false)
+                .Build()
+        };
+
+        var connectionString = ConnectionProvider.Instance.GetConnectionString();
+        var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
+        using (var stream = File.Create(filePath))
+        {
+            await JsonSerializer.SerializeAsync(
+                stream,
+                toDos,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+        }
+
+        var result = await _JSONDataSource.ReadAsync();
+        Assert.Equal(2, result.Count);
+        Assert.Equal(toDos[0].Title, result[0].Title);
+        Assert.Equal(toDos[1].Title, result[1].Title);
+    }
+    // [Fact]
+    // public async Task UpdateAsync_ReturnsTrue_WhenFileExistsAndToDoIsUpdated()
+    // {
+    //     var id = Guid.NewGuid();
+    //     var toDos = await JsonSerializer.DeserializeAsync<List<ToDo>>(File.OpenRead(_expectedFileName));
+    //     var lastToDo = toDos?.LastOrDefault();
+
+    //     if (lastToDo != null)
+    //     {
+    //         try
+    //         {
+    //             await _JSONDataSource.UpdateAsync(lastToDo.Id, true);
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             Console.WriteLine(ex.Message);
+    //         }
+    //     }
+
+    //     var updatedToDo = toDos?.LastOrDefault();
+    //     Assert.True(updatedToDo?.IsComplete ?? false);
+    // }
 }
 

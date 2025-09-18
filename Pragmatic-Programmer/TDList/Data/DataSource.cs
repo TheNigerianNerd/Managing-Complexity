@@ -19,24 +19,38 @@ public class DataSource : IDataSource
             }
         }
     }
-
-    public async Task InsertDataAsync()
+    public async Task InsertDataAsync(List<ToDo> toDos)
     {
-        await Task.CompletedTask;
+        var connectionString = ConnectionProvider.Instance.GetConnectionString();
+        var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
+        using (var stream = File.Open(filePath, FileMode.Create))
+        {
+            var existingToDos = await JsonSerializer.DeserializeAsync<List<ToDo>>(stream);
+            if (existingToDos != null)
+            {
+                existingToDos.AddRange(toDos);
+                stream.Position = 0;
+                await JsonSerializer.SerializeAsync(stream, existingToDos);
+            }
+        }
     }
 
     public async Task<List<ToDo>> ReadAsync()
     {
-        return await Task.FromResult<List<ToDo>>(new List<ToDo>());
+        var connectionString = ConnectionProvider.Instance.GetConnectionString();
+        var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
+        if (File.Exists(filePath))
+        {
+            using (var stream = File.OpenRead(filePath))
+            {
+                var deserializedList = await JsonSerializer.DeserializeAsync<List<ToDo>?>(stream);
+                return deserializedList ?? new List<ToDo>();
+            }
+        }
+        else
+        {
+            return new List<ToDo>();
+        }
     }
 
-    public async Task<bool> UpdateAsync(Guid id, bool isComplete)
-    {
-        return await Task.FromResult<bool>(false);
-    }
-
-    public async Task<bool> AddAsync(IToDoBuilder builder)
-    {
-        return await Task.FromResult<bool>(false);
-    }
 }
