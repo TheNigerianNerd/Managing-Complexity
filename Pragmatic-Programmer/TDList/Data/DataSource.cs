@@ -7,9 +7,13 @@ namespace TDList.Data;
 
 public class DataSource : IDataSource
 {
+    string connectionString;
+    public DataSource()
+    {
+        connectionString = ConnectionProvider.Instance.GetConnectionString();
+    }
     public async Task CreateAsync()
     {
-        var connectionString = ConnectionProvider.Instance.GetConnectionString();
         var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
         if (!File.Exists(filePath))
         {
@@ -19,25 +23,21 @@ public class DataSource : IDataSource
             }
         }
     }
-    public async Task InsertDataAsync(List<ToDo> toDos)
+    
+    public async Task InsertDataAsync(ToDo toDo)
     {
-        var connectionString = ConnectionProvider.Instance.GetConnectionString();
         var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
-        using (var stream = File.Open(filePath, FileMode.Create))
+
+        var deserializedList = await ReadAsync();
+        deserializedList.Add(toDo);
+        using (var stream = File.Open(filePath, FileMode.Truncate, FileAccess.Write))
         {
-            var existingToDos = await JsonSerializer.DeserializeAsync<List<ToDo>>(stream);
-            if (existingToDos != null)
-            {
-                existingToDos.AddRange(toDos);
-                stream.Position = 0;
-                await JsonSerializer.SerializeAsync(stream, existingToDos);
-            }
+            await JsonSerializer.SerializeAsync(stream, deserializedList);
         }
     }
 
     public async Task<List<ToDo>> ReadAsync()
     {
-        var connectionString = ConnectionProvider.Instance.GetConnectionString();
         var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
         if (File.Exists(filePath))
         {

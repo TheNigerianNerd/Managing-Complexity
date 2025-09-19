@@ -49,8 +49,7 @@ public class JSONDataSourceTests
                 .Build()
         };
 
-        var connectionString = ConnectionProvider.Instance.GetConnectionString();
-        var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
+        var filePath = Path.Combine(Environment.CurrentDirectory, _expectedFileName);
         using (var stream = File.Create(filePath))
         {
             await JsonSerializer.SerializeAsync(
@@ -65,27 +64,24 @@ public class JSONDataSourceTests
         Assert.Equal(toDos[0].Title, result[0].Title);
         Assert.Equal(toDos[1].Title, result[1].Title);
     }
-    // [Fact]
-    // public async Task UpdateAsync_ReturnsTrue_WhenFileExistsAndToDoIsUpdated()
-    // {
-    //     var id = Guid.NewGuid();
-    //     var toDos = await JsonSerializer.DeserializeAsync<List<ToDo>>(File.OpenRead(_expectedFileName));
-    //     var lastToDo = toDos?.LastOrDefault();
+    [Fact]
+    public async Task InsertDataAsync_WhenFileExists_AddsToDoToList_ThenWritesListToFile()
+    {
+        var toDo = new ToDoBuilder()
+            .WithId(Guid.NewGuid())
+            .WithTitle("Test")
+            .WithDescription("Test")
+            .WithDateLogged(DateTime.Now)
+            .WithIsComplete(false)
+            .Build();
 
-    //     if (lastToDo != null)
-    //     {
-    //         try
-    //         {
-    //             await _JSONDataSource.UpdateAsync(lastToDo.Id, true);
-    //         }
-    //         catch (Exception ex)
-    //         {
-    //             Console.WriteLine(ex.Message);
-    //         }
-    //     }
+        var filePath = Path.Combine(Environment.CurrentDirectory, _expectedFileName);
+        await _JSONDataSource.CreateAsync();
+        Assert.True(File.Exists(filePath));
 
-    //     var updatedToDo = toDos?.LastOrDefault();
-    //     Assert.True(updatedToDo?.IsComplete ?? false);
-    // }
+        await _JSONDataSource.InsertDataAsync((ToDo)toDo);
+        var result = await _JSONDataSource.ReadAsync();
+        Assert.Equal(toDo.Id, result.Last().Id);
+    }
 }
 
