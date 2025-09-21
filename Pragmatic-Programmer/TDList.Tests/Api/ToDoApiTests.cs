@@ -4,6 +4,7 @@ using TDList.Contracts;
 using TDList.Data;
 
 namespace TDList.Tests;
+
 public class ToDoControllerTests
 {
     [Fact]
