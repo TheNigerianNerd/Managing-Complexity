@@ -30,8 +30,26 @@ public class ToDoControllerTests
             .Build();
 
         var result = await controller.Post((ToDo)toDo);
-        
+
         Assert.NotNull(result);
         Assert.IsType<CreatedResult>(result.Result);
+    }
+    [Fact]
+    public async Task UpdateTest()
+    {
+        var mockDataSource = new Mock<DataSource>();
+        var controller = new ToDoController(mockDataSource.Object);
+        var toDo = new ToDoBuilder()
+            .WithId(Guid.NewGuid())
+            .WithTitle("Test")
+            .WithDescription("Test")
+            .WithDateLogged(DateTime.Now)
+            .WithIsComplete(false)
+            .Build();
+
+        var result = await controller.Put((ToDo)toDo);
+        
+        Assert.NotNull(result);
+        Assert.IsType<OkResult>(result.Result);
     }
 }

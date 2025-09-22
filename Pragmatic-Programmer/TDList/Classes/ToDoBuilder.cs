@@ -1,4 +1,5 @@
 using TDList.Contracts;
+using TDList.Data;
 
 namespace TDList.Classes;
 
@@ -9,6 +10,7 @@ public class ToDoBuilder : IToDoBuilder
     private string? _description;
     private DateTime? _dateLogged;
     private bool? _isComplete;
+    private ConnectionProvider _connectionProvider = ConnectionProvider.Instance;
 
     public ToDoBuilder() { }
 

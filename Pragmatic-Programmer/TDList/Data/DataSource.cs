@@ -52,5 +52,19 @@ public class DataSource : IDataSource
             return new List<ToDo>();
         }
     }
+    public async Task UpdateDataAsync(ToDo toDo)
+    {
+        var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
 
+        var deserializedList = await ReadAsync();
+        var index = deserializedList.FindIndex(t => t.Id == toDo.Id);
+        if (index != -1)
+        {
+            deserializedList[index] = toDo;
+            using (var stream = File.Open(filePath, FileMode.Truncate, FileAccess.Write))
+            {
+                await JsonSerializer.SerializeAsync(stream, deserializedList);
+            }
+        }
+    }
 }

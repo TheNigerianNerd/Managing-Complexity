@@ -28,4 +28,10 @@ public class ToDoController : ControllerBase
         await _dataSource.InsertDataAsync(toDo);
         return Created(uri: "/api/todos/" + toDo.Id.ToString(), value: toDo);
     }
+    [HttpPut]
+    public async Task<ActionResult<ToDo>> Put([FromBody] ToDo toDo)
+    {
+        await _dataSource.UpdateDataAsync(toDo);
+        return Ok();
+    }
 }
