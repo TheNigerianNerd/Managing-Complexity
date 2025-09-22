@@ -12,7 +12,7 @@
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/Pragmatic-Programmer/TDList.Tests/bin/Debug/net9.0/TDList.Tests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Pragmatic-Programmer/TDList.Tests",
+            "cwd": "${workspaceFolder}/Pragmatic-Programmer/ToDoApi",
             "console": "internalConsole",
             "stopAtEntry": false
         },

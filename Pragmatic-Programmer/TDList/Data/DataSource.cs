@@ -41,10 +41,16 @@ public class DataSource : IDataSource
         var filePath = Path.Combine(Environment.CurrentDirectory, connectionString);
         if (File.Exists(filePath))
         {
-            using (var stream = File.OpenRead(filePath))
+            try
             {
-                var deserializedList = await JsonSerializer.DeserializeAsync<List<ToDo>?>(stream);
+                await using var stream = File.OpenRead(filePath);
+                var deserializedList = await JsonSerializer.DeserializeAsync<List<ToDo>>(stream);
                 return deserializedList ?? new List<ToDo>();
+            }
+            catch (JsonException)
+            {
+                // Optionally log the error
+                return new List<ToDo>();
             }
         }
         else

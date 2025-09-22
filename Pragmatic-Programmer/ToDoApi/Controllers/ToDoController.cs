@@ -17,9 +17,9 @@ public class ToDoController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        var toDos = _dataSource.ReadAsync();
+        var toDos = await _dataSource.ReadAsync();
         return Ok(toDos);
     }
     [HttpPost]

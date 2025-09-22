@@ -8,7 +8,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 // Register the DataSource service
-builder.Services.AddSingleton<DataSource>(new DataSource());
+var dataSource = new DataSource();
+await dataSource.CreateAsync();
+builder.Services.AddSingleton<DataSource>(dataSource);
 
 var app = builder.Build();
 
