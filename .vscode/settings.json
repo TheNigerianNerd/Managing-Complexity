@@ -1,0 +1,13 @@
+{
+  // Prefer OmniSharp to run using the installed modern .NET SDK (required for net8/net9 projects)
+  "omnisharp.useModernNet": true,
+  // Use the latest OmniSharp build available (helps with newer SDKs)
+  "omnisharp.path": "latest",
+  // Open the solution by default so the C# extension loads all projects and references
+  "dotnet.defaultSolution": "Managing-Complexity.sln",
+  // Enable Roslyn analyzers in the editor (optional but useful)
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  // Helpful C# editor suggestions
+  "csharp.suggestNamespaces": true
+}

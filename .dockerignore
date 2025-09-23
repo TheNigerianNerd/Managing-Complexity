@@ -1,0 +1,15 @@
+# Ignore build outputs and user files
+**/bin/
+**/obj/
+.vs/
+.vscode/
+.git/
+**/*.user
+**/*.suo
+
+# Ignore local NuGet caches and user profiles
+C:\Program Files (x86)\*
+C:\Program Files\*
+
+# Ignore Docker-related files stored by IDEs
+**/*.dcproj

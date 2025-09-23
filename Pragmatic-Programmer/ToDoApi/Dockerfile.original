@@ -1,0 +1,23 @@
+# build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# copy project files first for layer caching
+COPY Pragmatic-Programmer/TDList/TDListDomainLibrary/TDListDomainLibrary.csproj Pragmatic-Programmer/TDList/TDListDomainLibrary/
+COPY Pragmatic-Programmer/ToDoApi/ToDoApi.csproj Pragmatic-Programmer/ToDoApi/
+
+# restore
+RUN dotnet restore Pragmatic-Programmer/ToDoApi/ToDoApi.csproj
+
+# copy the rest
+COPY . .
+
+# publish
+RUN dotnet publish Pragmatic-Programmer/ToDoApi/ToDoApi.csproj -c Release -o /app/out
+
+# runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/out ./
+EXPOSE 80
+ENTRYPOINT ["dotnet", "ToDoApi.dll"]
