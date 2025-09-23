@@ -24,6 +24,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          tags: "${DOCKER_USER}/managing-complexity:latest"
+          tags: ${{ vars.DOCKER_USER }}/managing-complexity:latest
           push: ${{ github.event_name != 'pull_request' }}
   
