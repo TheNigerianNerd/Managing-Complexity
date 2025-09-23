@@ -6,11 +6,11 @@ WORKDIR /src
 COPY Pragmatic-Programmer/TDList/*.csproj ./TDList/
 COPY Pragmatic-Programmer/ToDoApi/*.csproj ./ToDoApi/
 
-RUN dotnet restore ./ToDoApi/*.csproj
+RUN dotnet restore ./ToDoApi/ToDoApi.csproj
 
 # copy the rest and publish
-COPY /Pragmatic-Programmer/TDList/. ./TDList/
-COPY /Pragmatic-Programmer/ToDoApi/. ./ToDoApi/
+COPY Pragmatic-Programmer/TDList/. ./TDList/
+COPY Pragmatic-Programmer/ToDoApi/. ./ToDoApi/
 
 WORKDIR /src/ToDoApi
 RUN dotnet publish -c Release -o /app /p:UseAppHost=false
