@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # copy csproj first (better layer caching)
-COPY Pragmatic-Programmer/ToDoApi/*.csproj ./ToDoApi/
+COPY /Pragmatic-Programmer/ToDoApi/*.csproj ./ToDoApi/
 RUN dotnet restore ./ToDoApi/*.csproj
 
 # copy the rest and publish
-COPY Pragmatic-Programmer/ToDoApi/ ./ToDoApi/
+COPY /Pragmatic-Programmer/ToDoApi/ ./ToDoApi/
 WORKDIR /src/ToDoApi
 RUN dotnet publish -c Release -o /app /p:UseAppHost=false
 
